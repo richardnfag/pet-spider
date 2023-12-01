@@ -1,0 +1,29 @@
+name: Scrap and push artefacts
+
+on:
+    # schedule a job to run weekly
+    schedule:
+        - cron: '0 0 * * 0'
+    # run the job when a new commit is pushed to the repo
+    push:
+        branches: [ main ]
+
+jobs:
+    RunScrapy:
+        # Disable by default
+        if: ${{ false }}
+
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Set up Python 3.10
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.10'
+                cache: 'pip' # caching pip dependencies
+            - run: pip install -r requirements.txt
+            - name: Run Scrapy Credly
+              run: scrapy crawl credly
+            - name: Run Scrapy GitHub
+              run: scrapy crawl github
