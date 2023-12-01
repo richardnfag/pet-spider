@@ -1,6 +1,6 @@
 import scrapy
 import yaml
-
+from ..settings import BUCKET_NAME, GITHUB_USERNAME, GITHUB_TOKEN
 
 LINGUIST_URL = "https://raw.githubusercontent.com/github/linguist/master/lib/linguist/languages.yml"
 
@@ -8,21 +8,19 @@ LINGUIST_URL = "https://raw.githubusercontent.com/github/linguist/master/lib/lin
 class GithubSpider(scrapy.Spider):
     name = "github"
     custom_settings = {
-        "FEEDS": {"s3://spider/github.json": {"format": "json", "encoding": "utf8"}}
+        "FEEDS": {f"s3://{BUCKET_NAME}/github.json": {"format": "json", "encoding": "utf8"}}
     }
 
     def start_requests(self):
-        self.username = self.settings.get("GITHUB_USERNAME")
-        self.token = self.settings.get("GITHUB_TOKEN")
         self.headers = {
             "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {self.token}",
+            "Authorization": f"Bearer {GITHUB_TOKEN}",
             "X-GitHub-Api-Version": "2022-11-28",
         }
 
         yield scrapy.Request(LINGUIST_URL, callback=self.parse_language_colors)
         yield scrapy.Request(
-            f"https://api.github.com/users/{self.username}/repos",
+            f"https://api.github.com/users/{GITHUB_USERNAME}/repos",
             headers=self.headers,
         )
 

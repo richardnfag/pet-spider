@@ -5,6 +5,8 @@
 Define follow environment variables:
 
 ```sh
+BUCKET_NAME="<my-bucket>"
+
 CREDLY_USERNAME="<my-credly-username>"
 GITHUB_USERNAME="<my-github-username>"
 GITHUB_TOKEN="<my-github-token>"
