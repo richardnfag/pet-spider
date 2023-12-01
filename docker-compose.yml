@@ -1,0 +1,19 @@
+version: '3'
+services:
+  spider:
+    container_name: spider
+    hostname: spider
+    build: .
+    ports:
+      - '8000:8000'
+    env_file:
+      - .env
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    hostname: minio
+    restart: always
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+# docker run -p 9000:9000 -p 9001:9001 quay.io/minio/minio server /data --console-address ":9001"
