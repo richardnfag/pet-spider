@@ -3,7 +3,7 @@ Scrapy==2.9.0
 botocore==1.29.105
 PyYAML==6.0
 cryptography==39.0.1
-Twisted==22.10.0
+Twisted==23.10.0
 certifi==2023.5.7
 setuptools==67.8.0
 pyOpenSSL==23.2.0
